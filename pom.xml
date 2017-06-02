@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>lab.bds</groupId>
+    <artifactId>bdslab</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <storm.version>1.0.2</storm.version>
+        <!--<storm.version>1.0.3</storm.version>-->
+        <!--<storm.version>1.1.0</storm.version>-->
+        <kafka.version>0.8.2.2</kafka.version>
+        <!--<kafka.version>0.9.0.1</kafka.version>-->
+        <!--<elasticsearch.client.version>5.4.1</elasticsearch.client.version>-->
+        <elasticsearch.client.version>5.4.2</elasticsearch.client.version>
+    </properties>
+    
+    <dependencies>
+        <!-- Storm library -->
+        <dependency>
+            <groupId>org.apache.storm</groupId>
+            <artifactId>storm-core</artifactId>
+            <version>${storm.version}</version>
+            <!--<version>1.1.0</version>-->
+        </dependency>
+        <!-- Elasticsearch library -->
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>transport</artifactId>
+            <!--<version>${elasticsearch.client.version}</version>-->
+            <version>5.4.1</version>
+        </dependency>
+        <!-- Log4j 2 Logger -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.8.2</version>
+            <!--<version>2.7</version>-->
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.8.2</version>
+            <!--<version>2.7</version>-->
+        </dependency>
+        <!-- Storm-Kafka integration library -->
+        <dependency>
+            <groupId>org.apache.storm</groupId>
+            <artifactId>storm-kafka</artifactId>
+            <version>${storm.version}</version>
+        </dependency>
+        <!-- Kafka client libraries as Storm-Kafka integration library does not include these -->
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka_2.11</artifactId>
+            <version>${kafka.version}</version>
+            <!--<version>0.9.0.1</version>-->
+            <exclusions>
+                <!-- Excluded to avoid version issues between Kafka zookeeper api and 
+                Storm-kafka zookeeper api -->
+                <exclusion>
+                    <groupId>org.apache.zookeeper</groupId>
+                    <artifactId>zookeeper</artifactId>
+                </exclusion>
+                <!-- Excluded to avoid Pre-emptive StackOverflowException due to version/implementation 
+                issues between Kafka slf4j/log4j api and Storm slf4j/log4js api -->
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>log4j</groupId>
+                    <artifactId>log4j</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+    </dependencies>
+    <name>bdslab</name>
+</project>
