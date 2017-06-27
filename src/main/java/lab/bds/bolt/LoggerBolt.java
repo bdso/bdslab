@@ -11,6 +11,7 @@ import org.apache.storm.topology.OutputFieldsDeclarer;
 import org.apache.storm.topology.base.BaseBasicBolt;
 import org.apache.storm.tuple.Fields;
 import org.apache.storm.tuple.Tuple;
+import org.apache.storm.tuple.Values;
 
 /**
  *
@@ -22,14 +23,16 @@ public class LoggerBolt extends BaseBasicBolt {
 
     @Override
     public void declareOutputFields(OutputFieldsDeclarer declarer) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         declarer.declare(new Fields("message"));
     }
 
     @Override
     public void execute(Tuple input, BasicOutputCollector boc) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         LOG.info(input.getString(0));
+        String dataIn=input.getString(0);
+           if (dataIn != null) {
+                boc.emit(new Values(dataIn));
+            }
     }
 
 }

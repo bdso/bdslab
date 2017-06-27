@@ -8,6 +8,7 @@ package lab.bds.bolt;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Map;
+import static lab.bds.lib.Function.GetIndexNameES;
 import org.apache.log4j.Logger;
 import org.apache.storm.task.TopologyContext;
 import org.apache.storm.topology.BasicOutputCollector;
@@ -32,7 +33,7 @@ public class IndexBolt implements IBasicBolt {
     public void prepare(Map arg0, TopologyContext arg1) {
         try {
             _client = new PreBuiltTransportClient(Settings.EMPTY)
-                    .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("127.0.0.1"), 9300));
+                    .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300));
 
         } catch (UnknownHostException ex) {
             LOG.warn("310_UnknownHostException", ex);
@@ -41,14 +42,10 @@ public class IndexBolt implements IBasicBolt {
 
     @Override
     public void execute(Tuple input, BasicOutputCollector collector) {
-        String json = "{"
-                + "\"user\":\"kimchy\","
-                + "\"postDate\":\"2013-01-30\","
-                + "\"message\":\"trying out Elasticsearch\""
-                + "}";
+        String json = "{" + "\"message\":\"" + input.getValue(0) + "\"" + "}";
         String dataIndex = json;
-
-        String indexName = "test";
+        String name = "bdslab";
+        String indexName = GetIndexNameES(name);
         if (!dataIndex.isEmpty()) {
             _client.prepareIndex(indexName, "access")
                     .setSource(dataIndex)

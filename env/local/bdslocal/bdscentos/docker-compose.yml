@@ -1,0 +1,22 @@
+version: '2'
+services: 
+  bdslocal:
+    hostname: bdscentos
+    image: "bdscentos:latest"
+    ports:
+     - "2181:2181"
+     - "9092:9092"
+     - "9090:9090"
+     - "9200:9200"
+     - "9300:9300"
+     - "5601:5601"
+    #  - "8080:8080"
+    #  - "6700:6700"
+    #  - "6701:6701"
+    #  - "6702:6702"
+    #  - "6703:6703"
+    environment:
+      # KAFKA_ADVERTISED_HOST_NAME: 192.168.99.100
+      KAFKA_PORT: 9092
+      KAFKA_CREATE_TOPICS: "bdslab:1:1"
+      KAFKA_ZOOKEEPER_CONNECT: localhost:2181

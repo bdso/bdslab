@@ -52,15 +52,15 @@ public class BDSTopo {
         // Build topology to consume message from kafka and print them on console
         final TopologyBuilder topologyBuilder = new TopologyBuilder();
         // Create KafkaSpout instance using Kafka configuration and add it to topology
-        topologyBuilder.setSpout("kafka-spout", new KafkaSpout(kafkaConf), 1);
+        topologyBuilder.setSpout("KafkaSpout", new KafkaSpout(kafkaConf), 1);
         //Route the output of Kafka Spout to Logger bolt to log messages consumed from Kafka
-        topologyBuilder.setBolt("print-msg", new LoggerBolt()).globalGrouping("kafka-spout");
+        topologyBuilder.setBolt("ShowMsg", new LoggerBolt()).globalGrouping("KafkaSpout");
         //Index data to elastic 5.4.1
-        topologyBuilder.setBolt("index", new IndexBolt()).shuffleGrouping("kafka-spout");
+        topologyBuilder.setBolt("IndexMsg", new IndexBolt()).shuffleGrouping("ShowMsg");
 
         // Submit topology to local cluster i.e. embedded storm instance in eclipse
         final LocalCluster localCluster = new LocalCluster();
-        localCluster.submitTopology("kafka-topology", new HashMap<>(), topologyBuilder.createTopology());
+        localCluster.submitTopology("BdsLabTopo", new HashMap<>(), topologyBuilder.createTopology());
     }
 
 }
