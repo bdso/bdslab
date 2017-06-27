@@ -3,7 +3,7 @@ FROM centos:latest
 MAINTAINER leophan<leo.phan0411@gmail.com>
 
 ARG USER_BDS=bdslab
-RUN groupadd -r $USER_BDS && useradd -r -g $USER_BDS $USER_BDS
+RUN groupadd -r $USER_BDS && useradd -d /home/$USER_BDS -r -g $USER_BDS $USER_BDS
 WORKDIR /opt/src
 RUN chown $USER_BDS /opt/src
 ENV DIR_HOME=/opt/src
