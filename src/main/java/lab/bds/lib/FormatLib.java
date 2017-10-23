@@ -13,9 +13,8 @@ import com.google.gson.annotations.SerializedName;
  */
 public class FormatLib {
 
-    public class LoggerFormat {
+    public class ParseFormat {
 
-        public String msg;
         /*
         Example data receive:
         
@@ -37,21 +36,21 @@ public class FormatLib {
            "cache_status":"MISS"
         }
          */
-//        @SerializedName("@timestamp")
-//        public String timeshost;
-//        public String host;
-//        public String type;
-//        public String vhost;
-//        public String clientip;
-//        public String timestamp;
-//        public String verb;
-//        public String request;
-//        public String response;
-//        public String bytes;
-//        public String referrer;
-//        public String agent;
-//        public String request_duration;
-//        public String cache_status;
+        @SerializedName("@timestamp")
+        public String timeshost;
+        public String host;
+        public String type;
+        public String vhost;
+        public String clientip;
+        public String timestamp;
+        public String verb;
+        public String request;
+        public String response;
+        public String bytes;
+        public String referrer;
+        public String agent;
+        public String request_duration;
+        public String cache_status;
 
     }
 }

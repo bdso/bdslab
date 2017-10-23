@@ -33,14 +33,6 @@ if [ $status -ne 0 ]; then
   exit $status
 fi
 
-# Start the storm process
-$SCRIPT_DIR/soStart.sh -D
-status=$?
-if [ $status -ne 0 ]; then
-  echo "Failed to start Storm: $stats"
-  exit $status
-fi
-
 # Naive check runs checks once a minute to see if either of the processes exited.
 # This illustrates part of the heavy lifting you need to do if you want to run
 # more than one service in a container. The container will exit with an error
@@ -52,10 +44,9 @@ while /bin/true; do
   PROCESS_2_STATUS=$(ps aux |grep -q elasticsearch | grep -v grep)
   PROCESS_3_STATUS=$(ps aux |grep -q kibana | grep -v grep)
   PROCESS_4_STATUS=$(ps aux |grep -q kafka | grep -v grep)
-  PROCESS_5_STATUS=$(ps aux |grep -q storm | grep -v grep)
   # If the greps above find anything, they will exit with 0 status
   # If they are not both 0, then something is wrong
-  if [ "$PROCESS_1_STATUS" -ne 0 ] || [ "$PROCESS_2_STATUS" -ne 0 ] || [ "$PROCESS_3_STATUS" -ne 0 ] || [ "$PROCESS_4_STATUS" -ne 0 ] || [ "$PROCESS_5_STATUS" -ne 0 ]; then
+  if [ "$PROCESS_1_STATUS" -ne 0 ] || [ "$PROCESS_2_STATUS" -ne 0 ] || [ "$PROCESS_3_STATUS" -ne 0 ] || [ "$PROCESS_4_STATUS" -ne 0 ]; then
     echo "One of the processes has already exited."
     exit -1
   fi

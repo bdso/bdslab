@@ -8,8 +8,7 @@ package lab.bds.bolt;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.util.Map;
-import lab.bds.lib.FormatLib.LoggerFormat;
-import static lab.bds.lib.Function.GetLog;
+import lab.bds.lib.FormatLib.ParseFormat;
 import org.apache.log4j.Logger;
 import org.apache.storm.task.TopologyContext;
 import org.apache.storm.topology.BasicOutputCollector;
@@ -18,14 +17,15 @@ import org.apache.storm.topology.OutputFieldsDeclarer;
 import org.apache.storm.tuple.Fields;
 import org.apache.storm.tuple.Tuple;
 import org.apache.storm.tuple.Values;
+import static lab.bds.lib.Function.GetRawParse;
 
 /**
  *
  * @author leo
  */
-public class LoggerBolt implements IBasicBolt {
+public class EnrichBolt implements IBasicBolt {
 
-    private static final Logger LOG = Logger.getLogger(LoggerBolt.class);
+    private static final Logger LOG = Logger.getLogger(EnrichBolt.class);
 
     @Override
     public void declareOutputFields(OutputFieldsDeclarer declarer) {
@@ -37,9 +37,9 @@ public class LoggerBolt implements IBasicBolt {
         LOG.info(input.getString(0));
         String dataInput = input.getString(0);
         Gson gson = new GsonBuilder().create();
-        LoggerFormat obj = gson.fromJson(dataInput, LoggerFormat.class);
+        ParseFormat obj = gson.fromJson(dataInput, ParseFormat.class);
 
-        String dataOut = GetLog(obj);
+        String dataOut = GetRawParse(obj);
         if (dataOut != null) {
             boc.emit(new Values(dataOut));
         }

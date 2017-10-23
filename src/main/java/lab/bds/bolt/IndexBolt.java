@@ -8,8 +8,9 @@ package lab.bds.bolt;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Map;
+import lab.bds.conf.ESConfig;
 import static lab.bds.lib.Function.GetIndexNameES;
-import org.apache.log4j.Logger;
+import static lab.bds.lib.LoggerLib.LOG;
 import org.apache.storm.task.TopologyContext;
 import org.apache.storm.topology.BasicOutputCollector;
 import org.apache.storm.topology.IBasicBolt;
@@ -18,6 +19,7 @@ import org.apache.storm.tuple.Tuple;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import static org.elasticsearch.common.xcontent.XContentType.JSON;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 
 /**
@@ -26,14 +28,34 @@ import org.elasticsearch.transport.client.PreBuiltTransportClient;
  */
 public class IndexBolt implements IBasicBolt {
 
-    private static final Logger LOG = Logger.getLogger(LoggerBolt.class);
     TransportClient _client;
+    private String esClusterName;
+    private String esHost;
+    private int esPort;
+    private String esIndex;
+    private String esType;
 
     @Override
-    public void prepare(Map arg0, TopologyContext arg1) {
+    public void prepare(Map conf, TopologyContext toc) {
         try {
-            _client = new PreBuiltTransportClient(Settings.EMPTY)
-                    .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300));
+
+            esClusterName = (String) conf.get(ESConfig.ES_CLUSTER_NAME);
+            esHost = (String) conf.get(ESConfig.ES_HOST);
+            esPort = ((Long) conf.get(ESConfig.ES_PORT)).intValue();
+            esIndex = (String) conf.get(ESConfig.ES_INDEX);
+            esType = (String) conf.get(ESConfig.ES_TYPE);
+
+            Settings settings = Settings.builder()
+                    .put("cluster.name", esClusterName).build();
+
+            _client = new PreBuiltTransportClient(settings);
+
+            for (String host : esHost.split(",")) {
+                _client.addTransportAddress(
+                        new InetSocketTransportAddress(
+                                InetAddress.getByName(host),
+                                esPort));
+            }
 
         } catch (UnknownHostException ex) {
             LOG.warn("310_UnknownHostException", ex);
@@ -42,16 +64,12 @@ public class IndexBolt implements IBasicBolt {
 
     @Override
     public void execute(Tuple input, BasicOutputCollector boc) {
-//        String json = "{" + "\"message\":\"" + input.getValue(0) + "\"" + "}";
-//        String json = "{" + "\"message\":\"" + "Teo Di Hoc" + "\"" + "}";
-//        String dataIndex = json;
 
         String dataIndex = input.getValue(0).toString();
-        String name = "bdslab";
-        String indexName = GetIndexNameES(name);
+        String indexName = GetIndexNameES(esIndex);
         if (!dataIndex.isEmpty()) {
-            _client.prepareIndex(indexName, "access")
-                    .setSource(dataIndex)
+            _client.prepareIndex(indexName, esType)
+                    .setSource(dataIndex, JSON)
                     .execute()
                     .actionGet();
         }

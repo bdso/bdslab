@@ -36,7 +36,7 @@ ARG ZOO_VERSION=${ZOO_MAJOR}.${ZOO_UPDATE}.${ZOO_BUILD}
 ENV ZOO_HOME $DIR_HOME/zookeeper-${ZOO_VERSION}
 ENV PATH $PATH:$ZOO_HOME/bin
 # Install zookeeper.
-RUN curl -L -O http://mirrors.viethosting.com/apache/zookeeper/zookeeper-${ZOO_VERSION}/zookeeper-${ZOO_VERSION}.tar.gz \
+RUN curl -L -O http://mirror.downloadvn.com/apache/zookeeper/zookeeper-${ZOO_VERSION}/zookeeper-${ZOO_VERSION}.tar.gz \
   && tar -xzf zookeeper-${ZOO_VERSION}.tar.gz \
   && rm -rf zookeeper-${ZOO_VERSION}.tar.gz
 # Config zookeeper.
@@ -55,33 +55,34 @@ ARG KAFKA_VERSION=${KAFKA_MAJOR}.${KAFKA_UPDATE}.${KAFKA_BUILD}
 ENV KAFKA_HOME=$DIR_HOME/kafka_${KAFKA_SBT}-${KAFKA_VERSION}
 ENV PATH $PATH:$KAFKA_HOME/bin
 # Install kafka.
-RUN curl -L -O http://mirrors.viethosting.com/apache/kafka/${KAFKA_VERSION}/kafka_${KAFKA_SBT}-${KAFKA_VERSION}.tgz \
+RUN curl -L -O http://mirror.downloadvn.com/apache/kafka/${KAFKA_VERSION}/kafka_${KAFKA_SBT}-${KAFKA_VERSION}.tgz \
   && tar -xzf kafka_${KAFKA_SBT}-${KAFKA_VERSION}.tgz \
   && rm -rf kafka_${KAFKA_SBT}-${KAFKA_VERSION}.tgz
 # Config kafka.
 COPY conf.d/kafka $DIR_HOME/conf.d/kafka
 EXPOSE $KAFKA_PORT $KAFKA_JMX_PORT
 
-# # Arguments storm version.
-# ARG STORM_MAJOR=1
-# ARG STORM_UPDATE=0
-# ARG STORM_BUILD=2
-# ARG STORM_VERSION=${STORM_MAJOR}.${STORM_UPDATE}.${STORM_BUILD}
-# ARG STORM_UI_PORT=8080
-# ARG STORM_W0_PORT=6700
-# ARG STORM_W1_PORT=6701
-# ARG STORM_W2_PORT=6702
-# ARG STORM_W3_PORT=6703
-# # Set ENV kafka.
-# ENV STORM_HOME=$DIR_HOME/apache-storm-${STORM_VERSION}
-# ENV PATH $PATH:$STORM_HOME/bin
-# # Install storm.
-# RUN curl -L -O http://mirror.downloadvn.com/apache/storm/apache-storm-${STORM_VERSION}/apache-storm-${STORM_VERSION}.tar.gz \
-#   && tar -xzf apache-storm-${STORM_VERSION}.tar.gz \
-#   && rm -rf apache-storm-${STORM_VERSION}.tar.gz \
-# # Config storm.
-
-# EXPOSE $STORM_UI_PORT $STORM_W0_PORT $STORM_W1_PORT $STORM_W2_PORT $STORM_W3_PORT
+# Arguments storm version.
+ARG STORM_MAJOR=1
+ARG STORM_UPDATE=1
+ARG STORM_BUILD=0
+ARG STORM_VERSION=${STORM_MAJOR}.${STORM_UPDATE}.${STORM_BUILD}
+ARG STORM_NIMBUS=6627
+ARG STORM_UI_PORT=8080
+ARG STORM_W0_PORT=6700
+ARG STORM_W1_PORT=6701
+ARG STORM_W2_PORT=6702
+ARG STORM_W3_PORT=6703
+# Set ENV kafka.
+ENV STORM_HOME=$DIR_HOME/apache-storm-${STORM_VERSION}
+ENV PATH $PATH:$STORM_HOME/bin
+# Install storm.
+RUN curl -L -O http://mirror.downloadvn.com/apache/storm/apache-storm-${STORM_VERSION}/apache-storm-${STORM_VERSION}.tar.gz \
+  && tar -xzf apache-storm-${STORM_VERSION}.tar.gz \
+  && rm -rf apache-storm-${STORM_VERSION}.tar.gz \
+# Config storm.
+COPY conf.d/storm $STORM_HOME/config
+EXPOSE $STORM_NIMBUS $STORM_UI_PORT $STORM_W0_PORT $STORM_W1_PORT $STORM_W2_PORT $STORM_W3_PORT
 
 # Arguments elasticsearch version.
 ARG ELASTIC_MAJOR=5

@@ -30,13 +30,16 @@ public class PropObj {
     private String stormNimbusSeeds;
     private int stormNimbusPort;
 
+    private String esClusterName;
     private String esHost;
     private int esPort;
-    private String esClusterName;
+    private String esIndex;
+    private String esType;
 
     private String redisMode;
     private String redisHost;
     private int redisPort;
+    private String redisPrefix;
 
     public PropObj(Properties prop) {
 
@@ -57,13 +60,16 @@ public class PropObj {
         this.stormNimbusSeeds = prop.getProperty("storm.nimbus.seeds", "localhost");
         this.stormNimbusPort = Integer.parseInt(prop.getProperty("storm.nimbus.port", "6627"));
 
+        this.esClusterName = prop.getProperty("elasticsearch.cluster.name", "elasticsearch");
         this.esHost = prop.getProperty("elasticsearch.host", "localhost");
         this.esPort = Integer.parseInt(prop.getProperty("elasticsearch.port", "9300"));
-        this.esClusterName = prop.getProperty("elasticsearch.cluster.name", "bdslab");
+        this.esIndex = prop.getProperty("elasticsearch.index", "bds");
+        this.esType = prop.getProperty("elasticsearch.type", "access");
 
         this.redisMode = prop.getProperty("redis.mode", "local");
         this.redisHost = prop.getProperty("redis.host", "localhost");
         this.redisPort = Integer.parseInt(prop.getProperty("redis.port", "6379"));
+        this.redisPrefix = prop.getProperty("redis.prefix", "bdslab");
 
     }
 
@@ -121,6 +127,22 @@ public class PropObj {
 
     public void setEsClusterName(String esClusterName) {
         this.esClusterName = esClusterName;
+    }
+
+    public String getEsIndex() {
+        return esIndex;
+    }
+
+    public void setEsIndex(String esIndex) {
+        this.esIndex = esIndex;
+    }
+
+    public String getEsType() {
+        return esType;
+    }
+
+    public void setEsType(String esType) {
+        this.esType = esType;
     }
 
     public int getStormWorkersNumber() {
@@ -225,6 +247,14 @@ public class PropObj {
 
     public void setRedisPort(int redisPort) {
         this.redisPort = redisPort;
+    }
+
+    public String getRedisPrefix() {
+        return redisPrefix;
+    }
+
+    public void setRedisPrefix(String redisPrefix) {
+        this.redisPrefix = redisPrefix;
     }
 
 }
