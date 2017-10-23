@@ -41,9 +41,12 @@ public class IndexBolt implements IBasicBolt {
     }
 
     @Override
-    public void execute(Tuple input, BasicOutputCollector collector) {
-        String json = "{" + "\"message\":\"" + input.getValue(0) + "\"" + "}";
-        String dataIndex = json;
+    public void execute(Tuple input, BasicOutputCollector boc) {
+//        String json = "{" + "\"message\":\"" + input.getValue(0) + "\"" + "}";
+//        String json = "{" + "\"message\":\"" + "Teo Di Hoc" + "\"" + "}";
+//        String dataIndex = json;
+
+        String dataIndex = input.getValue(0).toString();
         String name = "bdslab";
         String indexName = GetIndexNameES(name);
         if (!dataIndex.isEmpty()) {

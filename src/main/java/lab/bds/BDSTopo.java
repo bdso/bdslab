@@ -1,22 +1,13 @@
 package lab.bds;
 
-import lab.bds.bolt.IndexBolt;
-import lab.bds.bolt.LoggerBolt;
-import java.util.HashMap;
-import org.apache.log4j.Logger;
-import org.apache.storm.LocalCluster;
-import org.apache.storm.kafka.BrokerHosts;
-import org.apache.storm.kafka.KafkaSpout;
-import org.apache.storm.kafka.SpoutConfig;
-import org.apache.storm.kafka.StringScheme;
-import org.apache.storm.kafka.ZkHosts;
-import org.apache.storm.spout.SchemeAsMultiScheme;
-import org.apache.storm.topology.TopologyBuilder;
+import java.io.FileInputStream;
+import java.util.Properties;
+import static lab.bds.lib.LoggerLib.LOG;
+import static lab.bds.lib.TopoLib.submitTopo;
+
 
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * This 
  */
 /**
  *
@@ -24,43 +15,30 @@ import org.apache.storm.topology.TopologyBuilder;
  */
 public class BDSTopo {
 
-    private static final Logger LOG = Logger.getLogger(BDSTopo.class);
+    private static Properties loadProperties(String propFile) throws Exception {
+        Properties prop = new Properties();
+        try (FileInputStream in = new FileInputStream(propFile)) {
+            prop.load(in);
+        }
+        return prop;
+    }
 
     public static void main(String[] args) {
-//bin/kafka-topics.sh --create --topic bdslab --zookeeper localhost:2181 --replication-factor 1 --partitions 1
-//bin/kafka-topics.sh --describe --zookeeper localhost:2181 --topic bdslab
-//bin/kafka-console-producer.sh --broker-list localhost:9092 --topic bdslab
-//bin/kafka-console-consumer.sh --zookeeper localhost:2181 --topic bdslab
-//bin/kafka-topics.sh --list --zookeeper localhost:2181
+
         if (args.length == 0) {
-            args = new String[]{"localhost:2181", "bdslab", "", "storm"};
+            args = new String[]{"./bdslab_local.properties"};
         }
 
-        if (args.length < 4) {
-            LOG.fatal("Incorrect number of arguments. Required arguments: <zk-hosts> <kafka-topic> <zk-path> <clientid>");
+        try {
+            String propFile = args[0];
+            Properties prop = loadProperties(propFile);
+            submitTopo(prop);
+        } catch (Exception e) {
+            LOG.error("Exception is completed.", e);
+            LOG.info("Check your file config.");
             System.exit(1);
         }
-//        Build Spout configuration using input command line parameters
-        final BrokerHosts zkrHosts = new ZkHosts(args[0]);
-        final String kafkaTopic = args[1];
-        final String zkRoot = args[2];
-        final String clientId = args[3];
 
-        final SpoutConfig kafkaConf = new SpoutConfig(zkrHosts, kafkaTopic, zkRoot, clientId);
-        kafkaConf.scheme = new SchemeAsMultiScheme(new StringScheme());
-
-        // Build topology to consume message from kafka and print them on console
-        final TopologyBuilder topologyBuilder = new TopologyBuilder();
-        // Create KafkaSpout instance using Kafka configuration and add it to topology
-        topologyBuilder.setSpout("KafkaSpout", new KafkaSpout(kafkaConf), 1);
-        //Route the output of Kafka Spout to Logger bolt to log messages consumed from Kafka
-        topologyBuilder.setBolt("ShowMsg", new LoggerBolt()).globalGrouping("KafkaSpout");
-        //Index data to elastic 5.4.1
-        topologyBuilder.setBolt("IndexMsg", new IndexBolt()).shuffleGrouping("ShowMsg");
-
-        // Submit topology to local cluster i.e. embedded storm instance in eclipse
-        final LocalCluster localCluster = new LocalCluster();
-        localCluster.submitTopology("BdsLabTopo", new HashMap<>(), topologyBuilder.createTopology());
     }
 
 }
