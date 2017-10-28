@@ -1,141 +1,52 @@
+package lab.bds.obj;
+
+import com.google.gson.annotations.SerializedName;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package lab.bds.obj;
-
 /**
  *
  * @author leo
  */
 public class ParseObj {
 
-    private String timeshost;
-    private String host;
-    private String type;
-    private String vhost;
-    private String clientip;
-    private String timestamp;
-    private String verb;
-    private String request;
-    private int response;
-    private long bytes;
-    private String referrer;
-    private String agent;
-    private float request_duration;
-    private String cache_status;
-
-    public String getTimeshost() {
-        return timeshost;
-    }
-
-    public void setTimeshost(String timeshost) {
-        this.timeshost = timeshost;
-    }
-
-    public String getHost() {
-        return host;
-    }
-
-    public void setHost(String host) {
-        this.host = host;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getVhost() {
-        return vhost;
-    }
-
-    public void setVhost(String vhost) {
-        this.vhost = vhost;
-    }
-
-    public String getClientip() {
-        return clientip;
-    }
-
-    public void setClientip(String clientip) {
-        this.clientip = clientip;
-    }
-
-    public String getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public String getVerb() {
-        return verb;
-    }
-
-    public void setVerb(String verb) {
-        this.verb = verb;
-    }
-
-    public String getRequest() {
-        return request;
-    }
-
-    public void setRequest(String request) {
-        this.request = request;
-    }
-
-    public int getResponse() {
-        return response;
-    }
-
-    public void setResponse(int response) {
-        this.response = response;
-    }
-
-    public long getBytes() {
-        return bytes;
-    }
-
-    public void setBytes(long bytes) {
-        this.bytes = bytes;
-    }
-
-    public String getReferrer() {
-        return referrer;
-    }
-
-    public void setReferrer(String referrer) {
-        this.referrer = referrer;
-    }
-
-    public String getAgent() {
-        return agent;
-    }
-
-    public void setAgent(String agent) {
-        this.agent = agent;
-    }
-
-    public float getRequest_duration() {
-        return request_duration;
-    }
-
-    public void setRequest_duration(float request_duration) {
-        this.request_duration = request_duration;
-    }
-
-    public String getCache_status() {
-        return cache_status;
-    }
-
-    public void setCache_status(String cache_status) {
-        this.cache_status = cache_status;
-    }
-
+    /*
+        Example data receive:
+        
+        {
+           "@timestamp":"2017-02-09T15:00:51.067Z",
+           "host":"Streaming02",
+           "type":"vod",
+           "vhost":"cdn-v1.mobitv.io",
+           "clientip":"1.54.19.38",
+           "timestamp":"09/Feb/2017:22:00:50 +0700",
+           "verb":"GET",
+           "request":"/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtb3ZpZUlkIjoiODQ1MDViNTktYTMzNC00ZGY2LWI1ZmEtNjIzMTkzMDM2Yjc0IiwiZXhwIjoxNDg2NjY2NDQxNDg5fQ.eMTMapCKpMGK1HjuDgaF_nImWiMYxnYbsScNMVkDK7o/vod/content/chu_cho_tinh_nghich_pup_2_no_good1/hls/1280x720-1488/chunk_72.ts",
+           "response":"200",
+           "bytes":"1189104",
+           "referrer":"\"http://localhost:1343/detail/chu-cho-tinh-nghich\"",
+           "agent":"\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/60.4.122 Chrome/54.4.2840.122 Safari/537.36\"",
+           "xforwardedfor":"\"-\"",
+           "request_duration":"1.031",
+           "cache_status":"MISS"
+        }
+     */
+    @SerializedName("@timestamp")
+    public String timeshost;
+    public String host;
+    public String type;
+    public String vhost;
+    public String clientip;
+    public String timestamp;
+    public String verb;
+    public String request;
+    public String response;
+    public String bytes;
+    public String referrer;
+    public String agent;
+    public String request_duration;
+    public String cache_status;
 }

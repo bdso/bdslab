@@ -34,7 +34,7 @@ public class BDSTopo {
             Properties prop = loadProperties(propFile);
             submitTopo(prop);
         } catch (Exception e) {
-            LOG.error("Exception is completed.", e);
+            LOG.error("Submit Topo is exception.", e);
             LOG.info("Check your file config.");
             System.exit(1);
         }

@@ -8,12 +8,14 @@ package lab.bds.lib;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import lab.bds.bolt.EnrichBolt;
 import lab.bds.bolt.IndexBolt;
 import lab.bds.bolt.ParseBolt;
+import lab.bds.conf.APIConfig;
 import lab.bds.conf.ESConfig;
 import lab.bds.conf.REConfig;
 import static lab.bds.lib.LoggerLib.LOG;
-import lab.bds.obj.PropObj;
+import lab.bds.scm.PropSchema;
 import org.apache.storm.Config;
 import org.apache.storm.LocalCluster;
 import org.apache.storm.StormSubmitter;
@@ -40,7 +42,7 @@ public class TopoLib {
     final private static String BOLT_FIVE = "E_CLEAN";
     final private static String BOLT_SIX = "F_STORE";
 
-    private static StormTopology buildTopo(PropObj propObj) {
+    private static StormTopology buildTopo(PropSchema propObj) {
 
         String kafkaZkHosts = propObj.getKafkaZkHosts();
         String kafkaTopic = propObj.getKafkaTopic();
@@ -57,7 +59,8 @@ public class TopoLib {
         TopologyBuilder topoBuilder = new TopologyBuilder();
         topoBuilder.setSpout(SOURCE_STREAM, new KafkaSpout(kafkaConf), 1);
         topoBuilder.setBolt(BOLT_ONE, new ParseBolt()).globalGrouping(SOURCE_STREAM);
-        topoBuilder.setBolt(BOLT_THREE, new IndexBolt()).shuffleGrouping(BOLT_ONE);
+        topoBuilder.setBolt(BOLT_TWO, new EnrichBolt()).globalGrouping(BOLT_ONE);
+        topoBuilder.setBolt(BOLT_THREE, new IndexBolt()).shuffleGrouping(BOLT_TWO);
 
         return topoBuilder.createTopology();
     }
@@ -70,7 +73,7 @@ public class TopoLib {
      */
     public static void submitTopo(Properties prop) throws Exception {
 
-        PropObj propObj = new PropObj(prop);
+        PropSchema propObj = new PropSchema(prop);
         StormTopology stormTopo = buildTopo(propObj);
         Config config = new Config();
 
@@ -94,6 +97,17 @@ public class TopoLib {
         config.put(REConfig.RE_HOST, propObj.getRedisHost());
         config.put(REConfig.RE_PORT, propObj.getRedisPort());
         config.put(REConfig.RE_PREFIX, propObj.getRedisPrefix());
+
+        /**
+         * Put config for API.
+         */
+        config.put(APIConfig.APIUAHOST, propObj.getApiUAHost());
+        config.put(APIConfig.APIUAPORT, propObj.getApiUAPort());
+        config.put(APIConfig.APIUAURN, propObj.getApiUAURN());
+
+        config.put(APIConfig.APIIPHOST, propObj.getApiIPHost());
+        config.put(APIConfig.APIIPPORT, propObj.getApiIPPort());
+        config.put(APIConfig.APIIPURN, propObj.getApiIPURN());
 
         if (propObj.getStormExecutionMode().equals("cluster")) {
 

@@ -5,12 +5,11 @@
  */
 package lab.bds.bolt;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Map;
-import lab.bds.conf.ESConfig;
-import static lab.bds.lib.Function.GetIndexNameES;
-import static lab.bds.lib.LoggerLib.LOG;
 import org.apache.storm.task.TopologyContext;
 import org.apache.storm.topology.BasicOutputCollector;
 import org.apache.storm.topology.IBasicBolt;
@@ -21,6 +20,10 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import static org.elasticsearch.common.xcontent.XContentType.JSON;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
+import lab.bds.obj.IndexObj;
+import lab.bds.conf.ESConfig;
+import static lab.bds.lib.LoggerLib.LOG;
+import static lab.bds.lib.FunctionLib.GetIndexESTimesHost;
 
 /**
  *
@@ -66,7 +69,10 @@ public class IndexBolt implements IBasicBolt {
     public void execute(Tuple input, BasicOutputCollector boc) {
 
         String dataIndex = input.getValue(0).toString();
-        String indexName = GetIndexNameES(esIndex);
+        Gson gson = new GsonBuilder().create();
+        IndexObj obj = gson.fromJson(dataIndex, IndexObj.class);
+
+        String indexName = GetIndexESTimesHost(esIndex, obj.timeshost, obj.timestamp);
         if (!dataIndex.isEmpty()) {
             _client.prepareIndex(indexName, esType)
                     .setSource(dataIndex, JSON)

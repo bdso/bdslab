@@ -3,16 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package lab.bds.lib;
-
-import org.apache.log4j.Logger;
+package lab.bds.scm;
 
 /**
  *
  * @author leo
  */
-public class LoggerLib {
-
-    public static final Logger LOG = Logger.getLogger(LoggerLib.class);
-
+public class IndexSchema {
+    
 }

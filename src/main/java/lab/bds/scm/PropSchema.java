@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package lab.bds.obj;
+package lab.bds.scm;
 
 import java.util.Properties;
 
@@ -11,7 +11,7 @@ import java.util.Properties;
  *
  * @author leo
  */
-public class PropObj {
+public class PropSchema {
 
     private String zkHosts;
     private String kafkaZkHosts;
@@ -41,13 +41,27 @@ public class PropObj {
     private int redisPort;
     private String redisPrefix;
 
-    public PropObj(Properties prop) {
+    private String apiUAHost;
+    private int apiUAPort;
+    private String apiUAURN;
 
+    private String apiIPHost;
+    private int apiIPPort;
+    private String apiIPURN;
+
+    public PropSchema(Properties prop) {
+
+        /**
+         * Config Kakfa.
+         */
         this.zkHosts = prop.getProperty("zookeeper.hosts", "localhost:2181");
         this.kafkaZkHosts = prop.getProperty("kafka.zookeeper.hosts", "localhost:2181");
         this.kafkaTopic = prop.getProperty("kafka.topic", "bdslab");
-        this.stormZkHosts = prop.getProperty("storm.zookeeper.hosts", "localhost:2181");
 
+        /**
+         * Config Storm.
+         */
+        this.stormZkHosts = prop.getProperty("storm.zookeeper.hosts", "localhost:2181");
         this.stormWorkersNumber = Integer.parseInt(prop.getProperty("storm.workers.number", "2"));
         this.stormMaxTaskParallelism = Integer.parseInt(prop.getProperty("storm.max.task.parallelism", "2"));
         this.stormExecutionMode = prop.getProperty("storm.execution.mode", "local");
@@ -60,16 +74,33 @@ public class PropObj {
         this.stormNimbusSeeds = prop.getProperty("storm.nimbus.seeds", "localhost");
         this.stormNimbusPort = Integer.parseInt(prop.getProperty("storm.nimbus.port", "6627"));
 
+        /**
+         * Config ES.
+         */
         this.esClusterName = prop.getProperty("elasticsearch.cluster.name", "elasticsearch");
         this.esHost = prop.getProperty("elasticsearch.host", "localhost");
         this.esPort = Integer.parseInt(prop.getProperty("elasticsearch.port", "9300"));
         this.esIndex = prop.getProperty("elasticsearch.index", "bds");
         this.esType = prop.getProperty("elasticsearch.type", "access");
 
+        /**
+         * Config Redis.
+         */
         this.redisMode = prop.getProperty("redis.mode", "local");
         this.redisHost = prop.getProperty("redis.host", "localhost");
         this.redisPort = Integer.parseInt(prop.getProperty("redis.port", "6379"));
         this.redisPrefix = prop.getProperty("redis.prefix", "bdslab");
+
+        /**
+         * Config API.
+         */
+        this.apiUAHost = prop.getProperty("api.ua.host", "localhost");
+        this.apiUAPort = Integer.parseInt(prop.getProperty("api.ua.port", "31337"));
+        this.apiUAURN = prop.getProperty("api.ua.urn", "/v1/ua/info");
+
+        this.apiIPHost = prop.getProperty("api.ip.host", "localhost");
+        this.apiIPPort = Integer.parseInt(prop.getProperty("api.ip.port", "31337"));
+        this.apiIPURN = prop.getProperty("api.ip.urn", "/v1/ip/info");
 
     }
 
@@ -255,6 +286,54 @@ public class PropObj {
 
     public void setRedisPrefix(String redisPrefix) {
         this.redisPrefix = redisPrefix;
+    }
+
+    public String getApiUAHost() {
+        return apiUAHost;
+    }
+
+    public void setApiUAHost(String apiUAHost) {
+        this.apiUAHost = apiUAHost;
+    }
+
+    public int getApiUAPort() {
+        return apiUAPort;
+    }
+
+    public void setApiUAPort(int apiUAPort) {
+        this.apiUAPort = apiUAPort;
+    }
+
+    public String getApiUAURN() {
+        return apiUAURN;
+    }
+
+    public void setApiUAURN(String apiUAURN) {
+        this.apiUAURN = apiUAURN;
+    }
+
+    public String getApiIPHost() {
+        return apiIPHost;
+    }
+
+    public void setApiIPHost(String apiIPHost) {
+        this.apiIPHost = apiIPHost;
+    }
+
+    public int getApiIPPort() {
+        return apiIPPort;
+    }
+
+    public void setApiIPPort(int apiIPPort) {
+        this.apiIPPort = apiIPPort;
+    }
+
+    public String getApiIPURN() {
+        return apiIPURN;
+    }
+
+    public void setApiIPURN(String apiIPURN) {
+        this.apiIPURN = apiIPURN;
     }
 
 }
