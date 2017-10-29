@@ -44,7 +44,7 @@ public class IndexBolt implements IBasicBolt {
 
             esClusterName = (String) conf.get(ESConfig.ES_CLUSTER_NAME);
             esHost = (String) conf.get(ESConfig.ES_HOST);
-            esPort = ((Long) conf.get(ESConfig.ES_PORT)).intValue();
+            esPort = ((Integer) conf.get(ESConfig.ES_PORT));
             esIndex = (String) conf.get(ESConfig.ES_INDEX);
             esType = (String) conf.get(ESConfig.ES_TYPE);
 

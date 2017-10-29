@@ -75,6 +75,12 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!--Redis libraries-->
+        <dependency>
+            <groupId>biz.paluch.redis</groupId>
+            <artifactId>lettuce</artifactId>
+            <version>4.4.0.Final</version>
+        </dependency>
         <!-- Gson to parse Json-->
         <dependency>
             <groupId>com.google.code.gson</groupId>

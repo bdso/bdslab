@@ -25,4 +25,12 @@ public class IndexObj {
     public String agent;
     public float request_duration;
     public String cache_status;
+
+    public String user_id;
+    public String entity_id;
+    public String title;
+    public String content_type;
+    public String stream_type;
+    public String publisher_id;
+    public String session;
 }
