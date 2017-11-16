@@ -38,7 +38,7 @@ public class EnrichBolt implements IBasicBolt {
     private static StatefulRedisClusterConnection<String, String> clusterConnection;
 
     private String redisHost;
-    private Integer redisPort;
+    private int redisPort;
     private String redisMode;
     private String redisPrefix;
     private String redisURI;
@@ -47,7 +47,7 @@ public class EnrichBolt implements IBasicBolt {
     public void prepare(Map conf, TopologyContext tc) {
 
         redisHost = (String) conf.get(REConfig.RE_HOST);
-        redisPort = ((Integer) conf.get(REConfig.RE_PORT));
+        redisPort = ((int) ((Long) conf.get(REConfig.RE_PORT)).intValue());
         redisMode = (String) conf.get(REConfig.RE_MODE);
         redisPrefix = (String) conf.get(REConfig.RE_PREFIX);
         redisURI = "redis://" + redisHost + ":" + redisPort;
@@ -77,6 +77,7 @@ public class EnrichBolt implements IBasicBolt {
 
         String dataOut = GetRawEnrich(obj);
         if (dataOut != null) {
+            syncCmds.set("host", obj.host);
             boc.emit(new Values(dataOut));
         }
     }

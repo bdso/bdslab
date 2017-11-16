@@ -13,8 +13,8 @@ public class EnrichObj {
 
     public String timeshost;
     public String host;
-    public String type;
-    public String vhost;
+//    public String type;
+//    public String vhost;
     public String clientip;
     public String timestamp;
     public String verb;

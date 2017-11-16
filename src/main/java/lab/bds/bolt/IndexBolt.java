@@ -41,15 +41,19 @@ public class IndexBolt implements IBasicBolt {
     @Override
     public void prepare(Map conf, TopologyContext toc) {
         try {
+            
+            System.setProperty("es.set.netty.runtime.available.processors", "false");
 
             esClusterName = (String) conf.get(ESConfig.ES_CLUSTER_NAME);
             esHost = (String) conf.get(ESConfig.ES_HOST);
-            esPort = ((Integer) conf.get(ESConfig.ES_PORT));
+            esPort = ((int) ((Long) conf.get(ESConfig.ES_PORT)).intValue());
             esIndex = (String) conf.get(ESConfig.ES_INDEX);
             esType = (String) conf.get(ESConfig.ES_TYPE);
 
             Settings settings = Settings.builder()
-                    .put("cluster.name", esClusterName).build();
+                    .put("cluster.name", esClusterName)
+//                    .put("es.set.netty.runtime.available.processors", false)
+                    .build();
 
             _client = new PreBuiltTransportClient(settings);
 

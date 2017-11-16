@@ -117,8 +117,8 @@ public class FunctionLib {
 
         jsObj.setTimeshost(obj.timeshost);
         jsObj.setHost(obj.host);
-        jsObj.setType(obj.type);
-        jsObj.setVhost(obj.vhost);
+//        jsObj.setType(obj.type);
+//        jsObj.setVhost(obj.vhost);
         jsObj.setClientip(obj.clientip);
         jsObj.setTimestamp(obj.timestamp);
         jsObj.setVerb(obj.verb);
@@ -145,8 +145,8 @@ public class FunctionLib {
 
         jsObj.setTimeshost(obj.timeshost);
         jsObj.setHost(obj.host);
-        jsObj.setType(obj.type);
-        jsObj.setVhost(obj.vhost);
+//        jsObj.setType(obj.type);
+//        jsObj.setVhost(obj.vhost);
         jsObj.setClientip(obj.clientip);
         jsObj.setTimestamp(obj.timestamp);
         jsObj.setVerb(obj.verb);
@@ -161,11 +161,11 @@ public class FunctionLib {
         HashMap objHM = JWTData(obj.request);
         jsObj.setUser_id((String) objHM.get(JWTVal.USERID));
         jsObj.setEntity_id((String) objHM.get(JWTVal.ENTITYID));
-        jsObj.setEntity_id((String) objHM.get(JWTVal.TITLE));
-        jsObj.setEntity_id((String) objHM.get(JWTVal.CONTENTTYPE));
-        jsObj.setEntity_id((String) objHM.get(JWTVal.STREAMTYPE));
-        jsObj.setEntity_id((String) objHM.get(JWTVal.PUBLISHERID));
-        jsObj.setEntity_id((String) objHM.get(JWTVal.SESSION));
+        jsObj.setTitle((String) objHM.get(JWTVal.TITLE));
+        jsObj.setContent_type((String) objHM.get(JWTVal.CONTENTTYPE));
+        jsObj.setStream_type((String) objHM.get(JWTVal.STREAMTYPE));
+        jsObj.setPublisher_id((String) objHM.get(JWTVal.PUBLISHERID));
+        jsObj.setSession((String) objHM.get(JWTVal.SESSION));
 
         /**
          * Json Object send ParserBolt.

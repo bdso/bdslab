@@ -19,8 +19,8 @@ public class ParseObj {
         {
            "@timestamp":"2017-02-09T15:00:51.067Z",
            "host":"Streaming02",
-           "type":"vod",
-           "vhost":"cdn-v1.mobitv.io",
+//           "type":"vod",
+//           "vhost":"cdn-v1.mobitv.io",
            "clientip":"1.54.19.38",
            "timestamp":"09/Feb/2017:22:00:50 +0700",
            "verb":"GET",
@@ -37,8 +37,8 @@ public class ParseObj {
     @SerializedName("@timestamp")
     public String timeshost;
     public String host;
-    public String type;
-    public String vhost;
+//    public String type;
+//    public String vhost;
     public String clientip;
     public String timestamp;
     public String verb;
@@ -47,6 +47,7 @@ public class ParseObj {
     public String bytes;
     public String referrer;
     public String agent;
+    public String xforwardedfor;
     public String request_duration;
     public String cache_status;
 }
