@@ -1,6 +1,7 @@
 package test;
 
 import java.time.LocalDateTime;
+import static java.time.ZoneOffset.UTC;
 import kafka.javaapi.producer.Producer;
 import kafka.producer.KeyedMessage;
 import kafka.producer.ProducerConfig;
@@ -22,8 +23,9 @@ public class SimpleProducer {
     public static void main(String[] args) throws InterruptedException {
         new SimpleProducer();
         String topic = "bdslab";
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now(UTC);
         String timeNow = now + "Z";
+        System.out.println(timeNow);
         String msg = "{\"@timestamp\":\"" + timeNow + "\","
                 + "\"host\":\"Streaming02\","
                 //                + "\"type\":\"vod\","

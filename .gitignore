@@ -1,3 +1,5 @@
 /logs/
 /nbactions.xml
 /target/
+/env/local/
+/*/.git/
