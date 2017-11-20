@@ -75,9 +75,8 @@ public class EnrichBolt implements IBasicBolt {
         Gson gson = new GsonBuilder().create();
         EnrichObj obj = gson.fromJson(dataInput, EnrichObj.class);
 
-        String dataOut = GetRawEnrich(obj);
+        String dataOut = GetRawEnrich(obj, syncCmds, redisPrefix);
         if (dataOut != null) {
-            syncCmds.set("host", obj.host);
             boc.emit(new Values(dataOut));
         }
     }

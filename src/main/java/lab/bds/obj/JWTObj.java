@@ -11,10 +11,19 @@ package lab.bds.obj;
  */
 public class JWTObj {
 
-    public String userId;
-    public String entityId;
-    public String title;
-    public String contentType;
-    public String streamType;
-    public String publisherId;
+    public String iss;
+    public String aud;
+    public String iat;
+    public String exp;
+    public String sub;
+
+    public String user_id;
+    public String entity_id;
+    public String entity_title;
+    public String entity_stream_type;
+    /**
+     * V2: Update 2 fields
+     */
+//    public String entity_content_type;
+//    public String entity_publisher_id;
 }

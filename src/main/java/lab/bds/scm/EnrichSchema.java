@@ -31,11 +31,24 @@ public class EnrichSchema {
      */
     private String user_id;
     private String entity_id;
-    private String title;
-    private String content_type;
-    private String stream_type;
+    private String entity_title;
+    private String entity_content_type;
+    private String entity_stream_type;
     private String publisher_id;
     private String session;
+
+    /**
+     * Request.
+     */
+    private String tran_out;
+    private String name_entity;
+    private String protocol;
+    private String rq_type;
+    private String language;
+    private String codec;
+    private String profile;
+    private String bitrate;
+    private String chunk;
 
     public String getTimeshost() {
         return timeshost;
@@ -166,27 +179,27 @@ public class EnrichSchema {
     }
 
     public String getTitle() {
-        return title;
+        return entity_title;
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.entity_title = title;
     }
 
     public String getContent_type() {
-        return content_type;
+        return entity_content_type;
     }
 
     public void setContent_type(String content_type) {
-        this.content_type = content_type;
+        this.entity_content_type = content_type;
     }
 
     public String getStream_type() {
-        return stream_type;
+        return entity_stream_type;
     }
 
     public void setStream_type(String stream_type) {
-        this.stream_type = stream_type;
+        this.entity_stream_type = stream_type;
     }
 
     public String getPublisher_id() {
@@ -203,6 +216,78 @@ public class EnrichSchema {
 
     public void setSession(String session) {
         this.session = session;
+    }
+
+    public String getTran_out() {
+        return tran_out;
+    }
+
+    public void setTran_out(String tran_out) {
+        this.tran_out = tran_out;
+    }
+
+    public String getName_entity() {
+        return name_entity;
+    }
+
+    public void setName_entity(String name_entity) {
+        this.name_entity = name_entity;
+    }
+
+    public String getProtocol() {
+        return protocol;
+    }
+
+    public void setProtocol(String protocol) {
+        this.protocol = protocol;
+    }
+
+    public String getRq_type() {
+        return rq_type;
+    }
+
+    public void setRq_type(String rq_type) {
+        this.rq_type = rq_type;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public String getCodec() {
+        return codec;
+    }
+
+    public void setCodec(String codec) {
+        this.codec = codec;
+    }
+
+    public String getProfile() {
+        return profile;
+    }
+
+    public void setProfile(String profile) {
+        this.profile = profile;
+    }
+
+    public String getBitrate() {
+        return bitrate;
+    }
+
+    public void setBitrate(String bitrate) {
+        this.bitrate = bitrate;
+    }
+
+    public String getChunk() {
+        return chunk;
+    }
+
+    public void setChunk(String chunk) {
+        this.chunk = chunk;
     }
 
 }
